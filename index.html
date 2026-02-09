@@ -206,7 +206,7 @@ body {
 }
 
 /* ---------- Rotate Device Overlay ---------- */
-#rotateOverlay {
+/*#rotateOverlay {
     position: fixed;
     inset: 0;
     width: 100dvw;
@@ -241,19 +241,9 @@ body {
     50% { transform: scale(1.08); }
 }
 
-/* Hard pause all animations */
-.paused * {
-    animation-play-state: paused !important;
-}
 
 </style>
 </head>
-
-<div id="rotateOverlay">
-    <div class="rotate-box">
-        🔄 Please rotate your phone
-    </div>
-</div>
 
 <body>
 
@@ -275,9 +265,10 @@ body {
 </div>
 
 <script>
-/* ---------- Rotate Device Gate ---------- */
-const overlay = document.getElementById("rotateOverlay");
+
 let paused = false;
+/* ---------- Rotate Device Gate ---------- */
+/*const overlay = document.getElementById("rotateOverlay");
 
 function isMobile() {
     return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -298,7 +289,6 @@ function checkOrientation() {
         paused = false;
     }
 
-    /* 🔥 Force reflow to fix bounds */
     overlay.getBoundingClientRect();
 }
 
@@ -307,7 +297,7 @@ window.addEventListener("orientationchange", () => {
 });
 
 window.addEventListener("resize", checkOrientation);
-checkOrientation();
+checkOrientation();*/
 /* ---------- CONFIG ---------- */
 const DROP_DELAY = 1500; // 🔥 Change this (ms) to control timing
 
