@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Valentine 💖</title>
+
+<style>
+/* ---------- Global Reset ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(120deg, #ff758c, #ff7eb3, #ffc3a0);
+    background-size: 300% 300%;
+    animation: bgMove 8s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* ---------- Background Animation ---------- */
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ---------- Floating Hearts ---------- */
+.heart {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.4);
+    animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0.8);
+        opacity: 0;
+    }
+    20% { opacity: 1; }
+    100% {
+        transform: translateY(-10vh) scale(1.4);
+        opacity: 0;
+    }
+}
+
+/* ---------- Main Container ---------- */
+.main {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(14px);
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    box-shadow: 0 2rem 5rem rgba(0,0,0,0.25);
+    
+    /* Key Changes: */
+    width: 95vw;
+    max-width: 450px;
+    height: 90vh;      /* Occupy most of the screen height */
+    max-height: 500px; /* But don't get too tall on desktop */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Spreads title, image, and buttons */
+    overflow: hidden;   /* Prevents scrollbars */
+}
+
+/* 🔥 Diagonal stretch on mobile */
+@media (max-width: 600px) {
+    .main {
+        transform: scale(1.05) rotate(-1.5deg);
+    }
+}
+
+/* ---------- Title ---------- */
+.title {
+    font-size: clamp(1.2rem, 5vh, 2rem); /* Scales with height */
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 12px rgba(255,255,255,0.6);
+    animation: pulse 2s infinite;
+    flex-shrink: 0; /* Don't let the title get squished */
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+
+/* ---------- Image Album ---------- */
+.img-album {
+    position: relative;
+    flex-grow: 1;    /* Take up all available remaining space */
+    width: 100%;
+    min-height: 0;   /* Critical for flexbox shrinking */
+    /* Use vmin so it scales based on the SMALLEST screen dimension */
+    height: min(50vmin, 260px);
+    margin: 0 auto 1rem;
+}
+
+.img-album img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transform: scale(1.6) translateY(-120px);
+    will-change: transform, opacity;
+}
+
+/* Drop animation */
+.drop {
+    animation: dropIn 0.9s ease forwards;
+}
+
+@keyframes dropIn {
+    0% {
+        opacity: 0;
+        transform: scale(1.6) translateY(-120px);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.05) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ---------- Buttons ---------- */
+.selection-button {
+    margin-top: 1rem; /* Reduced from 3rem */
+    padding-top: 1rem; /* Reduced from 5rem */
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+    justify-content: center;
+}
+
+.selection-button button {
+    padding: 0.75rem 2rem;
+    border-radius: 2rem;
+    border: none;
+    background: rgba(255,255,255,0.9);
+    color: #ff4d6d;
+    font-size: clamp(0.9rem, 4vw, 1rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.yes-button:hover {
+    --hover-y: -3px;
+}
+
+#noBtn:hover {
+    transform: translateX(10px) rotate(3deg);
+}
+
+/* ---------- Button Animations ---------- */
+
+/* NO button shake */
+@keyframes noShake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+    100% { transform: translateX(0); }
+}
+
+.no-shake {
+    animation: noShake 0.4s ease;
+}
+
+/* YES button aggressive shake */
+@keyframes yesShake {
+    0% { transform: translateY(var(--hover-y)) scale(var(--scale)) rotate(0deg); }
+    25% { transform: translateY(var(--hover-y)) scale(var(--scale)) rotate(-3deg); }
+    50% { transform: translateY(var(--hover-y)) scale(var(--scale)) rotate(3deg); }
+    75% { transform: translateY(var(--hover-y)) scale(var(--scale)) rotate(-2deg); }
+    100% { transform: translateY(var(--hover-y)) scale(var(--scale)) rotate(0deg); }
+}
+
+.yes-shake {
+    animation: yesShake 0.3s ease;
+}
+
+/* YES button growth cap */
+.yes-button {
+    --scale: 1;
+    --hover-y: 0px;
+    transform: translateY(var(--hover-y)) scale(var(--scale));
+    transition: transform 0.2s ease;
+}
+
+/* ---------- Rotate Device Overlay ---------- */
+#rotateOverlay {
+    position: fixed;
+    inset: 0;
+    width: 100dvw;
+    height: 100dvh;
+    background: linear-gradient(120deg, #ff758c, #ff7eb3, #ffc3a0);
+    display: none;
+    place-items: center;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+}
+#rotateOverlay[style*="none"] {
+    opacity: 0;
+}
+
+/* Center-safe box */
+.rotate-box {
+    max-width: min(80vw, 320px);
+    padding: 1.8rem 2.2rem;
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(14px);
+    border-radius: 1.5rem;
+    font-size: clamp(1rem, 4vw, 1.3rem);
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 1.5rem 3rem rgba(0,0,0,0.35);
+    animation: rotatePulse 1.5s infinite;
+    line-height: 1.4;
+}
+
+@keyframes rotatePulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+/* Hard pause all animations */
+.paused * {
+    animation-play-state: paused !important;
+}
+
+</style>
+</head>
+
+<div id="rotateOverlay">
+    <div class="rotate-box">
+        🔄 Please rotate your phone
+    </div>
+</div>
+
+<body>
+
+<div class="main">
+    <h1 class="title">Will you be my Valentine?? >.<</h1>
+
+    <div class="img-album">
+        <img src="img1.png"/>
+        <img src="img2.png"/>
+        <img src="img3.png"/>
+        <img src="img4.png"/>
+        <img src="img5.png"/>
+    </div>
+
+    <div class="selection-button">
+        <button id="yesBtn" class="yes-button">Yes 💖</button>
+        <button id="noBtn">No 😢</button>
+    </div>
+</div>
+
+<script>
+/* ---------- Rotate Device Gate ---------- */
+const overlay = document.getElementById("rotateOverlay");
+let paused = false;
+
+function isMobile() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+function checkOrientation() {
+    if (!isMobile()) return;
+
+    const portrait = window.matchMedia("(orientation: portrait)").matches;
+
+    if (portrait) {
+        overlay.style.display = "grid";
+        document.body.classList.add("paused");
+        paused = true;
+    } else {
+        overlay.style.display = "none";
+        document.body.classList.remove("paused");
+        paused = false;
+    }
+
+    /* 🔥 Force reflow to fix bounds */
+    overlay.getBoundingClientRect();
+}
+
+window.addEventListener("orientationchange", () => {
+    setTimeout(checkOrientation, 100);
+});
+
+window.addEventListener("resize", checkOrientation);
+checkOrientation();
+/* ---------- CONFIG ---------- */
+const DROP_DELAY = 1500; // 🔥 Change this (ms) to control timing
+
+/* ---------- Image Drop Sequencer ---------- */
+const images = document.querySelectorAll(".img-album img");
+
+images.forEach((img, index) => {
+    setTimeout(() => {
+        if (!paused) {
+            img.style.zIndex = index + 1;
+            img.classList.add("drop");
+        }
+    }, index * DROP_DELAY);
+});
+
+/* ---------- Floating Hearts ---------- */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 14 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 7000);
+}
+setInterval(() => {
+    if (!paused) createHeart();
+}, 400);
+
+/* ---------- Button Logic ---------- */
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const album = document.querySelector(".img-album");
+
+let yesScale = 1;
+const MAX_SCALE = 1.6;
+
+/* NO button click */
+noBtn.addEventListener("click", () => {
+    // Shake NO button
+    noBtn.classList.remove("no-shake");
+    void noBtn.offsetWidth; // reflow
+    noBtn.classList.add("no-shake");
+
+    // Grow + shake YES button
+    if (yesScale < MAX_SCALE) {
+        yesScale += 0.1;
+        yesScale = Math.min(yesScale, MAX_SCALE);
+        yesBtn.style.setProperty("--scale", yesScale);
+    }
+
+    yesBtn.classList.remove("yes-shake");
+    void yesBtn.offsetWidth;
+    yesBtn.classList.add("yes-shake");
+});
+
+/* YES button click */
+yesBtn.addEventListener("click", () => {
+    album.innerHTML = `
+        <img 
+            src="img.gif" 
+            style="
+                width:100%;
+                height:100%;
+                object-fit:contain;
+                animation: dropIn 0.9s ease forwards;
+            "
+        />
+    `;
+});
+</script>
+
+</body>
+</html>
